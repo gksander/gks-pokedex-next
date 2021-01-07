@@ -27,13 +27,13 @@
     "tailwindcss": "^2.0.2",
     "tinycolor2": "^1.4.2",
     "typeface-kalam": "^1.1.13",
-    "typescript": "^4.1.3"
-  },
-  "devDependencies": {
+    "typescript": "^4.1.3",
     "@types/classnames": "^2.2.11",
     "@types/node": "^14.14.20",
     "@types/react": "^17.0.0",
-    "@types/tinycolor2": "^1.4.2",
+    "@types/tinycolor2": "^1.4.2"
+  },
+  "devDependencies": {
     "prettier": "^2.2.1"
   }
 }
