@@ -16,6 +16,7 @@ import { PokeListCard } from "../components/PokeListCard";
 import classNames from "classnames";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { useKey } from "react-use";
 
 type PokeListProps = {
   pageInfo: PokeListPaginationInfo;
@@ -31,7 +32,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
   const maxId = Math.min(currentPage * pageSize, numPokemon);
   const totalNumPages = pageInfo.totalNumPages;
 
-  // S TODO: Key handlers
+  useBindKeyHandlers({ pageInfo });
 
   const { scrollYProgress } = useViewportScroll();
   const barWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
@@ -76,12 +77,12 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                 </a>
                 . Built with{" "}
                 <a
-                  href="https://reactjs.org/"
+                  href="https://nextjs.org/"
                   target="_blank"
                   rel="noreferrer"
                   className="text-primary-800"
                 >
-                  React.JS
+                  Next.JS
                 </a>{" "}
                 and styled with the almighty{" "}
                 <a
@@ -121,7 +122,6 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                 },
               },
             }}
-            // S TODO: key={`page-${currentPage}`}
           >
             <div className="grid gap-16">
               {pokemon.map((p) => (
@@ -210,6 +210,26 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
       </div>
     </ViewWrapper>
   );
+};
+
+const useBindKeyHandlers = ({ pageInfo }: Pick<PokeListProps, "pageInfo">) => {
+  const currentPage = pageInfo?.page;
+  const totalNumPages = pageInfo?.totalNumPages;
+  const router = useRouter();
+
+  const goPrev = () => {
+    if (currentPage && currentPage > 1) {
+      router.push(currentPage === 2 ? "/" : `/${currentPage - 1}`);
+    }
+  };
+  useKey("ArrowLeft", goPrev, {}, [currentPage]);
+
+  const goNext = () => {
+    if (currentPage && totalNumPages && currentPage < totalNumPages) {
+      router.push(`/${currentPage + 1}`);
+    }
+  };
+  useKey("ArrowRight", goNext, {}, [currentPage]);
 };
 
 /**

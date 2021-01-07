@@ -6,9 +6,12 @@ import Link from "next/link";
 import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import { Pokeball } from "../components/Pokeball";
+import { useRouter } from "next/router";
+import { setBackgroundColor } from "../utils/setBackgroundColor";
 
 const AppWrapper = ({ Component, pageProps, router }: AppProps) => {
   const shouldShowHeaderShadow = useShouldShowShadowHeader();
+  useResetBgColorIfNecessary();
 
   return (
     <div
@@ -99,6 +102,20 @@ const useShouldShowShadowHeader = () => {
   });
 
   return shouldShow;
+};
+
+const useResetBgColorIfNecessary = () => {
+  const { asPath } = useRouter();
+
+  React.useEffect(() => {
+    if (
+      ["/", "/search"].includes(asPath) ||
+      asPath.startsWith("/types") ||
+      /\/\d$/.test(asPath)
+    ) {
+      setBackgroundColor("white");
+    }
+  }, [asPath]);
 };
 
 export default AppWrapper;
