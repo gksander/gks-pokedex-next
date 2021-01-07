@@ -152,34 +152,18 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
         <div className="sticky bottom-0 py-1 bg-white border-t flex items-center">
           {(() => {
             const isDisabled = currentPage < 2;
-            const TheLink = (props) =>
-              isDisabled ? <span {...props} /> : <Link {...props} passHref />;
-            const TheA = (props) =>
-              isDisabled ? <span {...props} /> : <a {...props} />;
+            const href = isDisabled
+              ? `/`
+              : currentPage === 2
+              ? "/"
+              : `/${currentPage - 1}`;
 
             return (
-              <TheLink
-                href={
-                  isDisabled
-                    ? `/`
-                    : currentPage === 2
-                    ? "/"
-                    : `/${currentPage - 1}`
-                }
-              >
-                <TheA
-                  className={classNames(
-                    "flex items-center rounded py-2 px-3 ",
-                    isDisabled
-                      ? "disabled cursor-not-allowed text-gray-500"
-                      : "hover:bg-gray-100 cursor-pointer",
-                  )}
-                >
-                  <FaChevronLeft />
-                  <span className="w-1" />
-                  <span>Previous</span>
-                </TheA>
-              </TheLink>
+              <BottomLink href={href} isDisabled={isDisabled}>
+                <FaChevronLeft />
+                <span className="w-1" />
+                <span>Previous</span>
+              </BottomLink>
             );
           })()}
           <div className="flex-grow text-sm flex justify-center">
@@ -196,32 +180,47 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
           </div>
           {(() => {
             const isDisabled = currentPage === totalNumPages;
-            const TheLink = (props) =>
-              isDisabled ? <span {...props} /> : <Link {...props} passHref />;
-            const TheA = (props) =>
-              isDisabled ? <span {...props} /> : <a {...props} />;
+            const href = isDisabled ? `/` : `/${currentPage + 1}`;
 
             return (
-              <TheLink href={isDisabled ? `/` : `/${currentPage + 1}`}>
-                <TheA
-                  className={classNames(
-                    "flex items-center rounded py-2 px-3 hover:bg-gray-100",
-                    isDisabled
-                      ? "disabled cursor-not-allowed text-gray-500"
-                      : "hover:bg-gray-100 cursor-pointer",
-                  )}
-                >
-                  <span>Next</span>
-                  <span className="w-1" />
-                  <FaChevronRight />
-                </TheA>
-              </TheLink>
+              <BottomLink href={href} isDisabled={isDisabled}>
+                <span>Next</span>
+                <span className="w-1" />
+                <FaChevronRight />
+              </BottomLink>
             );
           })()}
         </div>
       </div>
     </ViewWrapper>
   );
+};
+
+const BottomLink: React.FC<{ href: string; isDisabled: boolean }> = ({
+  href,
+  isDisabled,
+  children,
+}) => {
+  const className = classNames(
+    "flex items-center rounded py-2 px-3 hover:bg-gray-100",
+    isDisabled
+      ? "disabled cursor-not-allowed text-gray-500"
+      : "hover:bg-gray-100 cursor-pointer",
+  );
+
+  if (!isDisabled) {
+    return (
+      <Link href={href} passHref>
+        <a className={className}>{children}</a>
+      </Link>
+    );
+  } else {
+    return (
+      <span>
+        <span className={className}>{children}</span>
+      </span>
+    );
+  }
 };
 
 const useBindKeyHandlers = ({ pageInfo }: Pick<PokeListProps, "pageInfo">) => {
