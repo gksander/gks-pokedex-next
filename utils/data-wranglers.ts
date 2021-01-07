@@ -79,7 +79,10 @@ const pokemonColorPalettes: {
 }[] = require("../data/pokemon-colors.json");
 import { capitalize } from "lodash";
 
-export const getAllPokemonSlugs = () => pokemonData.map((p) => p.identifier);
+export const getAllPokemonSlugs = () =>
+  pokemonData
+    .filter((p) => Number(p.id) < NUM_POKEMON)
+    .map((p) => p.identifier);
 
 export const getPokemonDetails = ({
   key = "id",
@@ -203,13 +206,13 @@ export const getPokemonDetails = ({
           id: previousPokemon.id,
           slug: previousPokemon.identifier,
         }
-      : undefined,
+      : {},
     nextPokemon: nextPokemon
       ? {
           id: nextPokemon.id,
           slug: nextPokemon.identifier,
         }
-      : undefined,
+      : {},
     flavorText,
     colorPalette: trimColorPalette({ colorPalette }),
     weaknesses,
@@ -222,14 +225,10 @@ const trimColorPalette = ({
 }: {
   colorPalette: typeof pokemonColorPalettes[0];
 }) => {
-  if (!colorPalette) return {};
-
-  return Object.entries(colorPalette).reduce((acc, [key, value]) => {
-    if (value) {
-      acc[key] = value?.rgb || undefined;
-    }
+  return Object.entries(colorPalette || {}).reduce((acc, [key, value]) => {
+    acc[key] = value?.rgb?.length ? value?.rgb : "";
     return acc;
-  }, {});
+  }, {} as { [K in keyof typeof pokemonColorPalettes[0]]: number[] | "" });
 };
 
 export const getSlimPokemonData = ({
@@ -239,8 +238,11 @@ export const getSlimPokemonData = ({
   key?: "id" | "slug";
   id: string;
 }) => {
-  const { id: pid, slug, flavorText, types } = getPokemonDetails({ key, id });
-  return { id: pid, slug, flavorText, types };
+  const { id: pid, slug, flavorText, types, colorPalette } = getPokemonDetails({
+    key,
+    id,
+  });
+  return { id: pid, slug, flavorText, types, colorPalette };
 };
 
 export const getAllTypes = () =>
