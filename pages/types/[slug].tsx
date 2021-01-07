@@ -4,6 +4,8 @@ import { getAllTypes, getTypeBySlug } from "../../utils/data-wranglers";
 import { ViewWrapper } from "../../components/ViewWrapper";
 import { PokeTypeChip } from "../../components/PokeTypeChip";
 import { PokeListCard } from "../../components/PokeListCard";
+import Head from "next/head";
+import { titleCase } from "../../utils/titleCase";
 
 type TypeDetailsProps = {
   type: ReturnType<typeof getTypeBySlug>;
@@ -39,6 +41,9 @@ const TypeDetails: React.FC<TypeDetailsProps> = ({ type }) => {
 
   return (
     <ViewWrapper>
+      <Head>
+        <title>{titleCase(type.slug)} - Details</title>
+      </Head>
       <div className="container max-w-2xl py-6 px-2">
         <div className="text-6xl font-fancy mb-3 capitalize">{type.slug}</div>
         <div className="grid gap-6">

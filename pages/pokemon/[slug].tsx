@@ -22,6 +22,8 @@ import { useRouter } from "next/router";
 import { useKey } from "react-use";
 import { PokeStatChart } from "../../components/PokeStatChart";
 import classNames from "classnames";
+import Head from "next/head";
+import { titleCase } from "../../utils/titleCase";
 
 type PokemonDetailsProps = {
   pokemon: ReturnType<typeof getPokemonDetails>;
@@ -35,6 +37,9 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
 
   return (
     <ViewWrapper>
+      <Head>
+        <title>{titleCase(pokemon.slug)}</title>
+      </Head>
       <div>
         <div className="container max-w-2xl py-6 px-2">
           <div className="grid sm:grid-cols-2 gap-12">

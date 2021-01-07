@@ -4,6 +4,7 @@ import { getAllTypes } from "../../utils/data-wranglers";
 import { ViewWrapper } from "../../components/ViewWrapper";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { PokeTypeChip } from "../../components/PokeTypeChip";
+import Head from "next/head";
 
 type TypesListProps = {
   types: ReturnType<typeof getAllTypes>;
@@ -12,6 +13,9 @@ type TypesListProps = {
 const TypesList: React.FC<TypesListProps> = ({ types }) => {
   return (
     <ViewWrapper>
+      <Head>
+        <title>Types List</title>
+      </Head>
       <div className="container max-w-2xl py-6 px-2">
         <div className="text-3xl font-bold">Types</div>
         <div className="mb-4 text-gray-700">

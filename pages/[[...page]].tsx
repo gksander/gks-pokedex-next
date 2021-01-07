@@ -41,8 +41,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
     <ViewWrapper>
       <div>
         <Head>
-          <title>Create Next App</title>
-          <link rel="icon" href="/favicon.ico" />
+          <title>GKS Pokedex</title>
         </Head>
         <AnimatePresence initial={false}>
           {currentPage === 1 && (
@@ -149,9 +148,11 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
         <div className="sticky bottom-0 py-1 bg-white border-t flex items-center">
           {(() => {
             const isDisabled = currentPage < 2;
+            const TheLink = (props) =>
+              isDisabled ? <span {...props} /> : <Link {...props} />;
 
             return (
-              <Link
+              <TheLink
                 href={
                   isDisabled
                     ? `/`
@@ -172,7 +173,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   <span className="w-1" />
                   <span>Previous</span>
                 </a>
-              </Link>
+              </TheLink>
             );
           })()}
           <div className="flex-grow text-sm flex justify-center">
@@ -189,8 +190,11 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
           </div>
           {(() => {
             const isDisabled = currentPage === totalNumPages;
+            const TheLink = (props) =>
+              isDisabled ? <span {...props} /> : <Link {...props} />;
+
             return (
-              <Link href={isDisabled ? `/` : `/${currentPage + 1}`}>
+              <TheLink href={isDisabled ? `/` : `/${currentPage + 1}`}>
                 <a
                   className={classNames(
                     "flex items-center rounded py-2 px-3 hover:bg-gray-100",
@@ -203,7 +207,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   <span className="w-1" />
                   <FaChevronRight />
                 </a>
-              </Link>
+              </TheLink>
             );
           })()}
         </div>

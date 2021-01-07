@@ -6,6 +6,7 @@ import { getSearchList } from "../utils/data-wranglers";
 import { ViewWrapper } from "../components/ViewWrapper";
 import { PokeImg } from "../components/PokeImg";
 import { FaChevronRight } from "react-icons/fa";
+import Head from "next/head";
 
 type SearchProps = {
   searchList: ReturnType<typeof getSearchList>;
@@ -20,6 +21,9 @@ const Search: React.FC<SearchProps> = ({ searchList }) => {
 
   return (
     <ViewWrapper>
+      <Head>
+        <title>Pokemon Search</title>
+      </Head>
       <div className="container max-w-2xl px-2 py-6">
         <div className="text-5xl font-fancy mb-6">Search for a Pokemon</div>
         <div className="border-2 border-gray-800 rounded overflow-hidden">
