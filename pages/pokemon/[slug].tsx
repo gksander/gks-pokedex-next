@@ -39,6 +39,10 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
     <ViewWrapper>
       <Head>
         <title>{titleCase(pokemon.slug)}</title>
+        <meta
+          name="description"
+          content={`Details for Pokemon ${titleCase(pokemon.slug)}`}
+        />
       </Head>
       <div>
         <div className="container max-w-2xl py-6 px-2">

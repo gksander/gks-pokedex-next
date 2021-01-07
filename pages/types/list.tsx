@@ -15,6 +15,7 @@ const TypesList: React.FC<TypesListProps> = ({ types }) => {
     <ViewWrapper>
       <Head>
         <title>Types List</title>
+        <meta name="description" content={`Pokemon types list`} />
       </Head>
       <div className="container max-w-2xl py-6 px-2">
         <div className="text-3xl font-bold">Types</div>

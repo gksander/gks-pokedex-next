@@ -23,7 +23,7 @@ export const PokeTypeChip: React.FC<PokeTypeChipProps> = ({
       case "bug":
         return "text-green-700 border-green-600 hover:bg-green-100";
       case "fire":
-        return "text-yellow-600 border-yellow-500 hover:bg-yellow-100";
+        return "text-yellow-700 border-yellow-500 hover:bg-yellow-100";
       case "grass":
         return "text-green-700 border-green-700 hover:bg-green-100";
       case "poison":
@@ -35,7 +35,7 @@ export const PokeTypeChip: React.FC<PokeTypeChipProps> = ({
       case "normal":
         return "text-gray-900 border-gray-900 hover:bg-gray-100";
       case "electric":
-        return "text-yellow-400 border-yellow-300 hover:bg-yellow-100";
+        return "text-gray-600 border-yellow-300 hover:bg-yellow-100";
       case "ground":
         return "text-yellow-800 border-yellow-700 hover:bg-yellow-100";
       case "fairy":
@@ -60,7 +60,7 @@ export const PokeTypeChip: React.FC<PokeTypeChipProps> = ({
   })();
 
   return (
-    <Link href={`/types/${slug}`}>
+    <Link href={`/types/${slug}`} passHref>
       <a
         className={classNames(
           "capitalize border-2 rounded inline-flex justify-center items-center transition-all duration-150",

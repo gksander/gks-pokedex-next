@@ -36,7 +36,7 @@ const AppWrapper = ({ Component, pageProps, router }: AppProps) => {
           }}
         >
           <div className="container max-w-2xl flex flex-row justify-between items-center">
-            <Link href="/">
+            <Link href="/" passHref>
               <a
                 className={classNames(
                   "text-primary-800 rounded border-2 border-transparent hover:border-primary-800 transition-colors duration-150 homeLink",
@@ -69,7 +69,7 @@ const AppWrapper = ({ Component, pageProps, router }: AppProps) => {
             </Link>
             <div>
               {LINKS.map((link) => (
-                <Link key={link.to} href={link.to}>
+                <Link key={link.to} href={link.to} passHref>
                   <a
                     className={classNames(
                       "px-3 py-2 text-primary-800 font-bold rounded transition-colors duration-150 border-2 border-transparent hover:border-primary-800",

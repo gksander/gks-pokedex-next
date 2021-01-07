@@ -43,6 +43,10 @@ const TypeDetails: React.FC<TypeDetailsProps> = ({ type }) => {
     <ViewWrapper>
       <Head>
         <title>{titleCase(type.slug)} - Details</title>
+        <meta
+          name="description"
+          content={`Type details for ${titleCase(type.slug)}`}
+        />
       </Head>
       <div className="container max-w-2xl py-6 px-2">
         <div className="text-6xl font-fancy mb-3 capitalize">{type.slug}</div>

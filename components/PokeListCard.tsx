@@ -53,7 +53,7 @@ export const PokeListCard = React.forwardRef<HTMLDivElement, PokeListCardProps>(
                     <Pokeball />
                   </motion.div>
                 </div>
-                <Link href={`/pokemon/${pokemon?.slug}`}>
+                <Link href={`/pokemon/${pokemon?.slug}`} passHref>
                   <a className="absolute inset-0">
                     <PokeImg id={pokemon.id} slug={pokemon.slug} />
                   </a>
@@ -64,7 +64,7 @@ export const PokeListCard = React.forwardRef<HTMLDivElement, PokeListCardProps>(
         </div>
         <div className="sm:col-span-3 sm:pt-3">
           <div className="flex justify-between items-baseline">
-            <Link href={`/pokemon/${pokemon?.slug}`}>
+            <Link href={`/pokemon/${pokemon?.slug}`} passHref>
               <a className="capitalize font-bold text-2xl text-gray-800 hover:text-primary-800 transition-colors duration-150">
                 {pokemon?.slug}
               </a>

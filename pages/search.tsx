@@ -23,21 +23,25 @@ const Search: React.FC<SearchProps> = ({ searchList }) => {
     <ViewWrapper>
       <Head>
         <title>Pokemon Search</title>
+        <meta name="description" content={`Search pokemon by name`} />
       </Head>
       <div className="container max-w-2xl px-2 py-6">
         <div className="text-5xl font-fancy mb-6">Search for a Pokemon</div>
         <div className="border-2 border-gray-800 rounded overflow-hidden">
-          <input
-            type="text"
-            className="p-3 w-full text-xl outline-none"
-            placeholder="Mew"
-            autoFocus
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+          <label aria-label="Search">
+            <input
+              type="text"
+              className="p-3 w-full text-xl outline-none"
+              placeholder="Mew"
+              autoFocus
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              name="search"
+            />
+          </label>
           <motion.div animate={{ height: "auto" }}>
             {filteredPokemon.map((p) => (
-              <Link href={`/pokemon/${p.slug}`} key={p.slug}>
+              <Link href={`/pokemon/${p.slug}`} key={p.slug} passHref>
                 <a className="block p-3 flex items-center hover:bg-primary-100 transition-colors duration-150">
                   <div className="flex-grow flex items-center">
                     <div className="w-8 mr-3">

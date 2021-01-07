@@ -42,6 +42,10 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
       <div>
         <Head>
           <title>GKS Pokedex</title>
+          <meta
+            name="description"
+            content={`Pokemon list, page ${currentPage}`}
+          />
         </Head>
         <AnimatePresence initial={false}>
           {currentPage === 1 && (
@@ -149,7 +153,9 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
           {(() => {
             const isDisabled = currentPage < 2;
             const TheLink = (props) =>
-              isDisabled ? <span {...props} /> : <Link {...props} />;
+              isDisabled ? <span {...props} /> : <Link {...props} passHref />;
+            const TheA = (props) =>
+              isDisabled ? <span {...props} /> : <a {...props} />;
 
             return (
               <TheLink
@@ -161,7 +167,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                     : `/${currentPage - 1}`
                 }
               >
-                <a
+                <TheA
                   className={classNames(
                     "flex items-center rounded py-2 px-3 ",
                     isDisabled
@@ -172,7 +178,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   <FaChevronLeft />
                   <span className="w-1" />
                   <span>Previous</span>
-                </a>
+                </TheA>
               </TheLink>
             );
           })()}
@@ -191,11 +197,13 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
           {(() => {
             const isDisabled = currentPage === totalNumPages;
             const TheLink = (props) =>
-              isDisabled ? <span {...props} /> : <Link {...props} />;
+              isDisabled ? <span {...props} /> : <Link {...props} passHref />;
+            const TheA = (props) =>
+              isDisabled ? <span {...props} /> : <a {...props} />;
 
             return (
               <TheLink href={isDisabled ? `/` : `/${currentPage + 1}`}>
-                <a
+                <TheA
                   className={classNames(
                     "flex items-center rounded py-2 px-3 hover:bg-gray-100",
                     isDisabled
@@ -206,7 +214,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   <span>Next</span>
                   <span className="w-1" />
                   <FaChevronRight />
-                </a>
+                </TheA>
               </TheLink>
             );
           })()}
