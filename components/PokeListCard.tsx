@@ -33,7 +33,7 @@ export const PokeListCard = React.forwardRef<HTMLDivElement, PokeListCardProps>(
       >
         <div className="sm:col-span-1 flex justify-center">
           <div className="w-56 sm:w-full">
-            <div className="relative " style={{ paddingTop: "100%" }}>
+            <div className="relative aspect-h-1 aspect-w-1">
               <motion.div className="absolute inset-0">
                 <div className="p-2" style={{ color: pokeballColor }}>
                   <motion.div

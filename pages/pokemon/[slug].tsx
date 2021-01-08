@@ -48,10 +48,7 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
         <div className="container max-w-2xl py-6 px-2">
           <div className="grid sm:grid-cols-2 gap-12">
             <div>
-              <div
-                className="w-3/4 sm:w-full relative mx-auto"
-                style={{ paddingTop: "100%" }}
-              >
+              <div className="w-3/4 sm:w-full relative mx-auto aspect-h-1 aspect-w-1">
                 <div className="absolute inset-0">
                   <AnimatePresence exitBeforeEnter initial={false}>
                     <motion.div
@@ -80,14 +77,16 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
                     </motion.div>
                   </AnimatePresence>
                 </div>
-                <div
-                  className="absolute left-0 bottom-0 text-6xl text-gray-700 font-fancy font-thin"
-                  style={{
-                    color,
-                    filter: `drop-shadow(2px 2px 2px rgba(50, 50, 50, 0.8))`,
-                  }}
-                >
-                  #{pokemon.id}
+                <div className="absolute inset-0">
+                  <div
+                    className="absolute left-0 bottom-0 text-6xl text-gray-700 font-fancy font-thin"
+                    style={{
+                      color,
+                      filter: `drop-shadow(2px 2px 2px rgba(50, 50, 50, 0.8))`,
+                    }}
+                  >
+                    #{pokemon.id}
+                  </div>
                 </div>
               </div>
             </div>
@@ -135,7 +134,7 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
             <div>
               <div className="text-xl font-bold mb-4">Stats</div>
               <div className="w-32 mx-auto">
-                <div className="w-full relative" style={{ paddingTop: "100%" }}>
+                <div className="w-full relative aspect-w-1 aspect-h-1">
                   <div className="absolute inset-0 text-gray-700">
                     {pokemon.stats?.length && (
                       <PokeStatChart
