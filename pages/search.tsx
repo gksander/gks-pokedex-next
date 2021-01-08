@@ -70,6 +70,9 @@ const Search: React.FC<SearchProps> = ({ searchList }) => {
 
 export default Search;
 
+/**
+ * Pull search list
+ */
 export const getStaticProps: GetStaticProps<SearchProps> = async () => {
   const searchList = getSearchList();
 

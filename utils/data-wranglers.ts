@@ -79,11 +79,17 @@ const pokemonColorPalettes: {
 }[] = require("../data/pokemon-colors.json");
 import { capitalize } from "lodash";
 
+/**
+ * Get all pokemon slugs
+ */
 export const getAllPokemonSlugs = () =>
   pokemonData
     .filter((p) => Number(p.id) < NUM_POKEMON)
     .map((p) => p.identifier);
 
+/**
+ * Given a pokemon, get full details for that pokemon
+ */
 export const getPokemonDetails = ({
   key = "id",
   id = "",
@@ -220,6 +226,9 @@ export const getPokemonDetails = ({
   };
 };
 
+/**
+ * Trim unneeded data out of color palette
+ */
 const trimColorPalette = ({
   colorPalette,
 }: {
@@ -231,6 +240,9 @@ const trimColorPalette = ({
   }, {} as { [K in keyof typeof pokemonColorPalettes[0]]: number[] | "" });
 };
 
+/**
+ * Get slimmed version of pokemon data (for lists)
+ */
 export const getSlimPokemonData = ({
   key = "id",
   id = "",
@@ -245,12 +257,18 @@ export const getSlimPokemonData = ({
   return { id: pid, slug, flavorText, types, colorPalette };
 };
 
+/**
+ * Get list of all types
+ */
 export const getAllTypes = () =>
   typesData.map((type) => ({
     id: type.id,
     slug: type.identifier,
   }));
 
+/**
+ * Get type given slug
+ */
 export const getTypeBySlug = ({ slug = "" }) => {
   const type = typesData.find((t) => t.identifier === slug);
 
@@ -280,6 +298,9 @@ export const getTypeBySlug = ({ slug = "" }) => {
   };
 };
 
+/**
+ * Search list
+ */
 export const getSearchList = () =>
   pokemonData
     .filter((p) => Number(p.id) < NUM_POKEMON)

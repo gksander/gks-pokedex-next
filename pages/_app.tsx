@@ -121,6 +121,9 @@ const useShouldShowShadowHeader = () => {
   return shouldShow;
 };
 
+/**
+ * On path change, reset bg to white on certain pages
+ */
 const useResetBgColorIfNecessary = () => {
   const { asPath } = useRouter();
 

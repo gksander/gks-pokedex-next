@@ -223,6 +223,9 @@ const BottomLink: React.FC<{ href: string; isDisabled: boolean }> = ({
   }
 };
 
+/**
+ * Use left/right arrow keys to navigate between pokemon
+ */
 const useBindKeyHandlers = ({ pageInfo }: Pick<PokeListProps, "pageInfo">) => {
   const currentPage = pageInfo?.page;
   const totalNumPages = pageInfo?.totalNumPages;

@@ -320,6 +320,9 @@ const BottomLinks: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   );
 };
 
+/**
+ * Determine color to use for pokemon
+ */
 const useColor = ({ pokemon }: PokemonDetailsProps) => {
   return React.useMemo(() => {
     const [r, g, b] = pokemon?.colorPalette?.LightVibrant ||
@@ -330,6 +333,9 @@ const useColor = ({ pokemon }: PokemonDetailsProps) => {
   }, [pokemon]);
 };
 
+/**
+ * Determine background color to use for pokemon
+ */
 const useBackgroundColor = ({ pokemon }: PokemonDetailsProps) => {
   return React.useMemo(() => {
     if (!pokemon) return "";
@@ -342,6 +348,9 @@ const useBackgroundColor = ({ pokemon }: PokemonDetailsProps) => {
   }, [pokemon]);
 };
 
+/**
+ * Set background color accordingly
+ */
 const useSetBackgroundColor = (bgColor = "") => {
   React.useEffect(() => {
     if (bgColor) {
@@ -352,6 +361,9 @@ const useSetBackgroundColor = (bgColor = "") => {
 
 export default PokemonDetails;
 
+/**
+ * Generate page for each pokemon
+ */
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   const slugs = getAllPokemonSlugs();
 
@@ -361,6 +373,9 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   };
 };
 
+/**
+ * For each pokemon, pull the details
+ */
 export const getStaticProps: GetStaticProps<
   PokemonDetailsProps,
   { slug: string }

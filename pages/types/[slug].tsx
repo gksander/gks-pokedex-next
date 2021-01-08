@@ -86,6 +86,9 @@ const TypeDetails: React.FC<TypeDetailsProps> = ({ type }) => {
 
 export default TypeDetails;
 
+/**
+ * Generate paths
+ */
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   const types = getAllTypes();
 
@@ -95,6 +98,9 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   };
 };
 
+/**
+ * For each type, get type details
+ */
 export const getStaticProps: GetStaticProps<
   TypeDetailsProps,
   { slug: string }
