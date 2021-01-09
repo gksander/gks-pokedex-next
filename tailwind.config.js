@@ -10,6 +10,8 @@ module.exports = {
         fuschia: colors.fuchsia,
         lightBlue: colors.lightBlue,
         lime: colors.lime,
+        blueGray: colors.blueGray,
+        pink: colors.pink,
       },
     },
     container: {
