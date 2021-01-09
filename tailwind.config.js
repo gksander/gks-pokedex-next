@@ -6,6 +6,10 @@ module.exports = {
     extend: {
       colors: {
         primary: colors.purple,
+        amber: colors.amber,
+        fuschia: colors.fuchsia,
+        lightBlue: colors.lightBlue,
+        lime: colors.lime,
       },
     },
     container: {
@@ -17,4 +21,5 @@ module.exports = {
   },
   plugins: [require("@tailwindcss/aspect-ratio")],
   purge: ["./pages/**/*.tsx", "./pages/**/*.js", "./components/**/*.tsx"],
+  darkMode: "media",
 };

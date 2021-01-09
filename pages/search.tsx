@@ -31,7 +31,7 @@ const Search: React.FC<SearchProps> = ({ searchList }) => {
           <label aria-label="Search">
             <input
               type="text"
-              className="p-3 w-full text-xl outline-none"
+              className="p-3 w-full text-xl outline-none bg-gray-50 dark:bg-gray-900"
               placeholder="Mew"
               autoFocus
               value={query}
@@ -42,7 +42,7 @@ const Search: React.FC<SearchProps> = ({ searchList }) => {
           <motion.div animate={{ height: "auto" }}>
             {filteredPokemon.map((p) => (
               <Link href={`/pokemon/${p.slug}`} key={p.slug} passHref>
-                <a className="block p-3 flex items-center hover:bg-primary-100 transition-colors duration-150">
+                <a className="block p-3 flex items-center bg-gray-50 dark:bg-gray-900 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors duration-150">
                   <div className="flex-grow flex items-center">
                     <div className="w-8 mr-3">
                       <div className="w-full">
@@ -53,7 +53,7 @@ const Search: React.FC<SearchProps> = ({ searchList }) => {
                         />
                       </div>
                     </div>
-                    <div className="font-bold text-gray-700 capitalize">
+                    <div className="font-bold text-gray-700 dark:text-gray-200 capitalize">
                       #{p.id} - {p.slug}
                     </div>
                   </div>

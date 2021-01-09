@@ -241,12 +241,7 @@ const BottomLinks: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   useKey("ArrowLeft", goPrev, {}, [goPrev]);
 
   return (
-    <div
-      className="flex justify-between text-sm text-gray-700 sticky bottom-0 py-3 border-t"
-      style={{
-        backgroundColor: "var(--background-color)",
-      }}
-    >
+    <div className="flex justify-between text-sm text-gray-700 sticky bottom-0 py-3 border-t customBgColor">
       <Link href={prevLink}>
         <a className="border-2 w-36 rounded flex justify-center items-center border-gray-700 hover:font-bold">
           <span className="p-2 pr-0">

@@ -7,13 +7,12 @@ import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import { Pokeball } from "../components/Pokeball";
 import { useRouter } from "next/router";
-import { setBackgroundColor } from "../utils/setBackgroundColor";
 import Head from "next/head";
 
 const AppWrapper = ({ Component, pageProps, router }: AppProps) => {
   const { asPath } = useRouter();
   const shouldShowHeaderShadow = useShouldShowShadowHeader();
-  useResetBgColorIfNecessary();
+  const shouldShowCustomBgColor = useShouldShowCustomBgColor();
 
   return (
     <React.Fragment>
@@ -21,26 +20,25 @@ const AppWrapper = ({ Component, pageProps, router }: AppProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        style={{
-          backgroundColor: "var(--background-color, white)",
-        }}
-        className="min-h-screen transition-colors duration-150"
+        className={classNames(
+          "min-h-screen transition-colors duration-150 bg-gray-50 dark:bg-gray-900 dark:text-gray-200",
+          shouldShowCustomBgColor && "customBgColor",
+        )}
       >
         <header
           className={classNames(
-            "p-2 transition-all duration-150 sticky top-0 z-10",
+            "p-2 transition-all duration-150 sticky top-0 z-10 text-primary-800 dark:text-primary-300 dark:bg-gray-900",
             shouldShowHeaderShadow && ["shadow"],
+            shouldShowCustomBgColor && "customBgColor",
           )}
-          style={{
-            backgroundColor: "var(--background-color, white)",
-          }}
         >
           <div className="container max-w-2xl flex flex-row justify-between items-center">
             <Link href="/" passHref>
               <a
                 className={classNames(
-                  "text-primary-800 rounded border-2 border-transparent hover:border-primary-800 transition-colors duration-150 homeLink",
-                  asPath === "/" && "border-primary-800",
+                  "rounded border-2 border-transparent hover:border-primary-800 dark:hover:border-primary-300 transition-colors duration-150 homeLink",
+                  asPath === "/" &&
+                    "border-primary-800 dark:border-primary-300",
                 )}
               >
                 <motion.div
@@ -72,8 +70,9 @@ const AppWrapper = ({ Component, pageProps, router }: AppProps) => {
                 <Link key={link.to} href={link.to} passHref>
                   <a
                     className={classNames(
-                      "px-3 py-2 text-primary-800 font-bold rounded transition-colors duration-150 border-2 border-transparent hover:border-primary-800",
-                      asPath === link.to && "border-primary-800",
+                      "px-3 py-2 font-bold rounded transition-colors duration-150 border-2 border-transparent hover:border-primary-800 dark:hover:border-primary-300",
+                      asPath === link.to &&
+                        "border-primary-800 dark:border-primary-300",
                     )}
                   >
                     {link.title}
@@ -121,21 +120,9 @@ const useShouldShowShadowHeader = () => {
   return shouldShow;
 };
 
-/**
- * On path change, reset bg to white on certain pages
- */
-const useResetBgColorIfNecessary = () => {
+const useShouldShowCustomBgColor = () => {
   const { asPath } = useRouter();
-
-  React.useEffect(() => {
-    if (
-      ["/", "/search"].includes(asPath) ||
-      asPath.startsWith("/types") ||
-      /\/\d$/.test(asPath)
-    ) {
-      setBackgroundColor("white");
-    }
-  }, [asPath]);
+  return /pokemon/i.test(asPath);
 };
 
 export default AppWrapper;

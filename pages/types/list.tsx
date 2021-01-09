@@ -19,7 +19,7 @@ const TypesList: React.FC<TypesListProps> = ({ types }) => {
       </Head>
       <div className="container max-w-2xl py-6 px-2">
         <div className="text-3xl font-bold">Types</div>
-        <div className="mb-4 text-gray-700">
+        <div className="mb-4 text-gray-700 dark:text-gray-300">
           Select a type to learn more about it.
         </div>
         <AnimatePresence exitBeforeEnter>

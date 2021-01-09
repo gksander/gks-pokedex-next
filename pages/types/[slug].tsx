@@ -56,7 +56,11 @@ const TypeDetails: React.FC<TypeDetailsProps> = ({ type }) => {
               <div className="text-3xl font-thin mb-1">{cat.title}</div>
               {(() => {
                 if (!cat.types.length) {
-                  return <div className="italic text-gray-700">Nothing...</div>;
+                  return (
+                    <div className="italic text-gray-700 dark:text-gray-300">
+                      Nothing...
+                    </div>
+                  );
                 }
 
                 return (

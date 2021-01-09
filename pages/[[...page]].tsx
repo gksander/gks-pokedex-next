@@ -65,7 +65,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   href="https://github.com/PokeAPI/pokeapi"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-primary-800"
+                  className="text-primary-800 dark:text-primary-200"
                 >
                   the Open PokeAPI
                 </a>{" "}
@@ -74,7 +74,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   href="https://veekun.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-primary-800"
+                  className="text-primary-800 dark:text-primary-200"
                 >
                   Veekun
                 </a>
@@ -83,7 +83,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   href="https://nextjs.org/"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-primary-800"
+                  className="text-primary-800 dark:text-primary-200"
                 >
                   Next.JS
                 </a>{" "}
@@ -92,7 +92,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   href="https://tailwindcss.com/"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-primary-800"
+                  className="text-primary-800 dark:text-primary-200"
                 >
                   TailwindCSS
                 </a>
@@ -101,7 +101,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   href="https://github.com/gksander/gks-pokedex-react"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-primary-800"
+                  className="text-primary-800 dark:text-primary-200"
                 >
                   the source code
                 </a>{" "}
@@ -149,7 +149,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
           </motion.div>
         </AnimatePresence>
         <div className="h-12" />
-        <div className="sticky bottom-0 py-1 bg-white border-t flex items-center">
+        <div className="sticky bottom-0 py-1 bg-gray-50 dark:bg-gray-900 border-t flex items-center">
           {(() => {
             const isDisabled = currentPage < 2;
             const href = isDisabled
@@ -202,7 +202,7 @@ const BottomLink: React.FC<{ href: string; isDisabled: boolean }> = ({
   children,
 }) => {
   const className = classNames(
-    "flex items-center rounded py-2 px-3 hover:bg-gray-100",
+    "flex items-center rounded py-2 px-3 hover:bg-gray-100 dark:hover:bg-gray-800",
     isDisabled
       ? "disabled cursor-not-allowed text-gray-500"
       : "hover:bg-gray-100 cursor-pointer",

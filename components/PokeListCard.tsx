@@ -65,17 +65,19 @@ export const PokeListCard = React.forwardRef<HTMLDivElement, PokeListCardProps>(
         <div className="sm:col-span-3 sm:pt-3">
           <div className="flex justify-between items-baseline">
             <Link href={`/pokemon/${pokemon?.slug}`} passHref>
-              <a className="capitalize font-bold text-2xl text-gray-800 hover:text-primary-800 transition-colors duration-150">
+              <a className="capitalize font-bold text-2xl text-gray-800 dark:text-gray-100 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-150">
                 {pokemon?.slug}
               </a>
             </Link>
             {pokemon?.id && (
-              <span className="text-gray-600 text-xl font-bold">
+              <span className="text-gray-600 dark:text-gray-300 text-xl font-bold">
                 #{pokemon?.id}
               </span>
             )}
           </div>
-          <div className="text-gray-700 mb-2">{pokemon?.flavorText}</div>
+          <div className="text-gray-700 dark:text-gray-400 mb-2">
+            {pokemon?.flavorText}
+          </div>
           <div className="-mx-1">
             {(pokemon?.types || []).map((slug) => (
               <span key={slug} className="mx-1">
