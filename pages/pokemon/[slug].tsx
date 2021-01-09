@@ -95,7 +95,7 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
               </div>
             </div>
             <div>
-              <div className="text-6xl leading-snug capitalize">
+              <div className="text-6xl leading-snug capitalize overflow-ellipsis truncate">
                 {pokemon.slug}
               </div>
               {/* Types */}
