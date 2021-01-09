@@ -10,6 +10,3 @@ The data from this site comes from the Open PokeAPI, and images come from Veekun
 
 Check out [a live version of this here](https://pokedex.gksander.com).
 
-## TODO:
-- [ ] Use tailwind aspect ratio instead of ugly abs positioning
-- [ ] Try out dark mode

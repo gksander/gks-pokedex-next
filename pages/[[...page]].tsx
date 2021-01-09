@@ -98,7 +98,7 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                 </a>
                 . Check out{" "}
                 <a
-                  href="https://github.com/gksander/gks-pokedex-react"
+                  href="https://github.com/gksander/gks-pokedex-next"
                   target="_blank"
                   rel="noreferrer"
                   className="text-primary-800 dark:text-primary-200"
