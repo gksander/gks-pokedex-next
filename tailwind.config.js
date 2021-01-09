@@ -23,5 +23,5 @@ module.exports = {
   },
   plugins: [require("@tailwindcss/aspect-ratio")],
   purge: ["./pages/**/*.tsx", "./pages/**/*.js", "./components/**/*.tsx"],
-  darkMode: "media",
+  darkMode: "class",
 };

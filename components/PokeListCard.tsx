@@ -15,20 +15,20 @@ type PokeListCardProps = {
 
 export const PokeListCard = React.forwardRef<HTMLDivElement, PokeListCardProps>(
   ({ pokemon }, ref) => {
-    const prefersDark = usePrefersDarkMode();
+    const { prefersDarkMode } = usePrefersDarkMode();
 
     const pokeballColor = React.useMemo(() => {
-      const rgb = prefersDark
+      const rgb = prefersDarkMode
         ? pokemon?.colorPalette?.DarkMuted || pokemon?.colorPalette?.DarkVibrant
         : pokemon?.colorPalette?.LightMuted ||
           pokemon?.colorPalette?.LightVibrant;
 
       return rgb
         ? `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.5)`
-        : prefersDark
+        : prefersDarkMode
         ? `rgba(200, 200, 200, 0.5)`
         : `rgba(0, 0, 0, 0.5)`;
-    }, [pokemon, prefersDark]);
+    }, [pokemon, prefersDarkMode]);
 
     return (
       <motion.div
@@ -48,7 +48,7 @@ export const PokeListCard = React.forwardRef<HTMLDivElement, PokeListCardProps>(
                       rest: {
                         scale: 1,
                         rotate: 0,
-                        color: prefersDark
+                        color: prefersDarkMode
                           ? "rgba(50, 50, 50, 0.8)"
                           : "rgba(200, 200, 200, 0.8)",
                       },
@@ -58,7 +58,7 @@ export const PokeListCard = React.forwardRef<HTMLDivElement, PokeListCardProps>(
                         color: pokeballColor,
                       },
                     }}
-                    key={prefersDark ? "dark" : "light"}
+                    key={prefersDarkMode ? "dark" : "light"}
                   >
                     <Pokeball />
                   </motion.div>

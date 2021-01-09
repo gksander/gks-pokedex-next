@@ -35,7 +35,7 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   const color = useColor({ pokemon });
   const bgColor = useBackgroundColor({ pokemon });
   useSetBackgroundColor(bgColor);
-  const prefersDark = usePrefersDarkMode();
+  const { prefersDarkMode } = usePrefersDarkMode();
 
   return (
     <ViewWrapper>
@@ -84,7 +84,7 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
                     className="absolute left-0 bottom-0 text-6xl text-gray-700 font-fancy font-thin"
                     style={{
                       color,
-                      filter: prefersDark
+                      filter: prefersDarkMode
                         ? `drop-shadow(2px 2px 2px rgba(100, 100, 100, 0.8))`
                         : `drop-shadow(2px 2px 2px rgba(50, 50, 50, 0.8))`,
                     }}
@@ -324,10 +324,10 @@ const BottomLinks: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
  * Determine color to use for pokemon
  */
 const useColor = ({ pokemon }: PokemonDetailsProps) => {
-  const prefersDark = usePrefersDarkMode();
+  const { prefersDarkMode } = usePrefersDarkMode();
 
   return React.useMemo(() => {
-    const [r, g, b] = prefersDark
+    const [r, g, b] = prefersDarkMode
       ? pokemon?.colorPalette?.DarkVibrant ||
         pokemon?.colorPalette?.Vibrant ||
         pokemon?.colorPalette?.DarkMuted || [50, 50, 50]
@@ -336,19 +336,19 @@ const useColor = ({ pokemon }: PokemonDetailsProps) => {
         pokemon?.colorPalette?.LightMuted || [200, 200, 200];
 
     return `rgb(${r}, ${g}, ${b})`;
-  }, [pokemon, prefersDark]);
+  }, [pokemon, prefersDarkMode]);
 };
 
 /**
  * Determine background color to use for pokemon
  */
 const useBackgroundColor = ({ pokemon }: PokemonDetailsProps) => {
-  const prefersDark = usePrefersDarkMode();
+  const { prefersDarkMode } = usePrefersDarkMode();
 
   return React.useMemo(() => {
     if (!pokemon) return "";
 
-    const [r, g, b] = prefersDark
+    const [r, g, b] = prefersDarkMode
       ? pokemon?.colorPalette?.DarkVibrant ||
         pokemon?.colorPalette?.Vibrant ||
         pokemon?.colorPalette?.DarkMuted || [50, 50, 50]
@@ -359,11 +359,11 @@ const useBackgroundColor = ({ pokemon }: PokemonDetailsProps) => {
     return tinycolor
       .mix(
         `rgb(${r}, ${g}, ${b})`,
-        prefersDark ? "black" : "white",
-        prefersDark ? 65 : 80,
+        prefersDarkMode ? "black" : "white",
+        prefersDarkMode ? 65 : 80,
       )
       .toRgbString();
-  }, [pokemon, prefersDark]);
+  }, [pokemon, prefersDarkMode]);
 };
 
 /**
