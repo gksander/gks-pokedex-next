@@ -55,6 +55,7 @@ export const PokeStatChart: React.FC<PokeStatChartProps> = ({
           fontSize={8}
           x={getX(i)}
           y={getY(i)}
+          className="fill-current"
         >
           {stat.name}
         </text>

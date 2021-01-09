@@ -24,6 +24,7 @@ import { PokeStatChart } from "../../components/PokeStatChart";
 import classNames from "classnames";
 import Head from "next/head";
 import { titleCase } from "../../utils/titleCase";
+import { usePrefersDarkMode } from "../../components/PrefersDarkModeContainer";
 
 type PokemonDetailsProps = {
   pokemon: ReturnType<typeof getPokemonDetails>;
@@ -34,6 +35,7 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   const color = useColor({ pokemon });
   const bgColor = useBackgroundColor({ pokemon });
   useSetBackgroundColor(bgColor);
+  const prefersDark = usePrefersDarkMode();
 
   return (
     <ViewWrapper>
@@ -82,7 +84,9 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
                     className="absolute left-0 bottom-0 text-6xl text-gray-700 font-fancy font-thin"
                     style={{
                       color,
-                      filter: `drop-shadow(2px 2px 2px rgba(50, 50, 50, 0.8))`,
+                      filter: prefersDark
+                        ? `drop-shadow(2px 2px 2px rgba(100, 100, 100, 0.8))`
+                        : `drop-shadow(2px 2px 2px rgba(50, 50, 50, 0.8))`,
                     }}
                   >
                     #{pokemon.id}
@@ -103,7 +107,7 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
                 ))}
               </div>
               {/* Weight/height */}
-              <div className="flex mb-2 text-gray-800">
+              <div className="flex mb-2 text-gray-800 dark:text-gray-300">
                 <div className="mr-5 flex items-center">
                   <span className="mr-2">
                     <FaRuler />
@@ -118,7 +122,9 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
                 </div>
               </div>
               {/*	Description */}
-              <div className="text-gray-800 mb-4">{pokemon.flavorText}</div>
+              <div className="text-gray-800 dark:text-gray-400 mb-4">
+                {pokemon.flavorText}
+              </div>
               <div className="text-xl font-bold">Weaknesses</div>
               <div className="flex flex-wrap">
                 {(pokemon.weaknesses || []).map(({ factor, slug }) => (
@@ -135,7 +141,7 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
               <div className="text-xl font-bold mb-4">Stats</div>
               <div className="w-32 mx-auto">
                 <div className="w-full relative aspect-w-1 aspect-h-1">
-                  <div className="absolute inset-0 text-gray-700">
+                  <div className="absolute inset-0 text-gray-700 dark:text-gray-300">
                     {pokemon.stats?.length && (
                       <PokeStatChart
                         stats={pokemon.stats}
@@ -193,7 +199,7 @@ const EvolutionChain: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
                     </div>
                     <div
                       className={classNames(
-                        "text-center text-gray-700 overflow-hidden whitespace-no-wrap capitalize",
+                        "text-center text-gray-700 dark:text-gray-300 overflow-hidden whitespace-no-wrap capitalize",
                         item.slug === pokemon.slug && "font-bold text-gray-900",
                       )}
                       style={{
@@ -241,9 +247,9 @@ const BottomLinks: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   useKey("ArrowLeft", goPrev, {}, [goPrev]);
 
   return (
-    <div className="flex justify-between text-sm text-gray-700 sticky bottom-0 py-3 border-t customBgColor">
+    <div className="flex justify-between text-sm text-gray-700 dark:text-gray-300 sticky bottom-0 py-3 border-t customBgColor">
       <Link href={prevLink}>
-        <a className="border-2 w-36 rounded flex justify-center items-center border-gray-700 hover:font-bold">
+        <a className="border-2 w-36 rounded flex justify-center items-center border-gray-700 dark:border-gray-300 hover:font-bold">
           <span className="p-2 pr-0">
             <FaChevronLeft />
           </span>
@@ -277,7 +283,7 @@ const BottomLinks: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
         </a>
       </Link>
       <Link href={nextLink}>
-        <a className="border-2 w-36 rounded flex justify-center items-center border-gray-700 hover:font-bold">
+        <a className="border-2 w-36 rounded flex justify-center items-center border-gray-700 dark:border-gray-300 hover:font-bold">
           <AnimatePresence exitBeforeEnter>
             {Boolean(pokemon?.nextPokemon?.id) && (
               <motion.span
@@ -318,28 +324,46 @@ const BottomLinks: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
  * Determine color to use for pokemon
  */
 const useColor = ({ pokemon }: PokemonDetailsProps) => {
+  const prefersDark = usePrefersDarkMode();
+
   return React.useMemo(() => {
-    const [r, g, b] = pokemon?.colorPalette?.LightVibrant ||
-      pokemon?.colorPalette?.Vibrant ||
-      pokemon?.colorPalette?.LightMuted || [200, 200, 200];
+    const [r, g, b] = prefersDark
+      ? pokemon?.colorPalette?.DarkVibrant ||
+        pokemon?.colorPalette?.Vibrant ||
+        pokemon?.colorPalette?.DarkMuted || [50, 50, 50]
+      : pokemon?.colorPalette?.LightVibrant ||
+        pokemon?.colorPalette?.Vibrant ||
+        pokemon?.colorPalette?.LightMuted || [200, 200, 200];
 
     return `rgb(${r}, ${g}, ${b})`;
-  }, [pokemon]);
+  }, [pokemon, prefersDark]);
 };
 
 /**
  * Determine background color to use for pokemon
  */
 const useBackgroundColor = ({ pokemon }: PokemonDetailsProps) => {
+  const prefersDark = usePrefersDarkMode();
+
   return React.useMemo(() => {
     if (!pokemon) return "";
 
-    const [r, g, b] = pokemon?.colorPalette?.LightVibrant ||
-      pokemon?.colorPalette?.Vibrant ||
-      pokemon?.colorPalette?.LightMuted || [200, 200, 200];
+    const [r, g, b] = prefersDark
+      ? pokemon?.colorPalette?.DarkVibrant ||
+        pokemon?.colorPalette?.Vibrant ||
+        pokemon?.colorPalette?.DarkMuted || [50, 50, 50]
+      : pokemon?.colorPalette?.LightVibrant ||
+        pokemon?.colorPalette?.Vibrant ||
+        pokemon?.colorPalette?.LightMuted || [200, 200, 200];
 
-    return tinycolor.mix(`rgb(${r}, ${g}, ${b})`, "white", 80).toRgbString();
-  }, [pokemon]);
+    return tinycolor
+      .mix(
+        `rgb(${r}, ${g}, ${b})`,
+        prefersDark ? "black" : "white",
+        prefersDark ? 65 : 80,
+      )
+      .toRgbString();
+  }, [pokemon, prefersDark]);
 };
 
 /**

@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Pokeball } from "../components/Pokeball";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { PrefersDarkModeContainer } from "../components/PrefersDarkModeContainer";
 
 const AppWrapper = ({ Component, pageProps, router }: AppProps) => {
   const { asPath } = useRouter();
@@ -27,7 +28,7 @@ const AppWrapper = ({ Component, pageProps, router }: AppProps) => {
       >
         <header
           className={classNames(
-            "p-2 transition-all duration-150 sticky top-0 z-10 text-primary-800 dark:text-primary-300 dark:bg-gray-900",
+            "p-2 transition-all duration-150 sticky top-0 z-10 text-primary-800 dark:text-primary-300 bg-gray-50 dark:bg-gray-900",
             shouldShowHeaderShadow && ["shadow"],
             shouldShowCustomBgColor && "customBgColor",
           )}
@@ -85,7 +86,9 @@ const AppWrapper = ({ Component, pageProps, router }: AppProps) => {
         <main className="py-6 px-2">
           <div className="container max-w-2xl">
             <AnimatePresence exitBeforeEnter>
-              <Component {...pageProps} key={router.route} />
+              <PrefersDarkModeContainer>
+                <Component {...pageProps} key={router.route} />
+              </PrefersDarkModeContainer>
             </AnimatePresence>
           </div>
         </main>

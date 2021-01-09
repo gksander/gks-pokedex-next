@@ -5,6 +5,7 @@ import { PokeTypeChip } from "./PokeTypeChip";
 import { motion } from "framer-motion";
 import { getPokemonDetails, getSlimPokemonData } from "../utils/data-wranglers";
 import { PokeImg } from "./PokeImg";
+import { usePrefersDarkMode } from "./PrefersDarkModeContainer";
 
 type PokeListCardProps = {
   pokemon?:
@@ -14,14 +15,20 @@ type PokeListCardProps = {
 
 export const PokeListCard = React.forwardRef<HTMLDivElement, PokeListCardProps>(
   ({ pokemon }, ref) => {
-    const pokeballColor = (() => {
-      const rgb =
-        pokemon?.colorPalette?.LightMuted ||
-        pokemon?.colorPalette?.LightVibrant;
+    const prefersDark = usePrefersDarkMode();
+
+    const pokeballColor = React.useMemo(() => {
+      const rgb = prefersDark
+        ? pokemon?.colorPalette?.DarkMuted || pokemon?.colorPalette?.DarkVibrant
+        : pokemon?.colorPalette?.LightMuted ||
+          pokemon?.colorPalette?.LightVibrant;
+
       return rgb
         ? `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.5)`
-        : `rgba(0,0,0, 0.5)`;
-    })();
+        : prefersDark
+        ? `rgba(200, 200, 200, 0.5)`
+        : `rgba(0, 0, 0, 0.5)`;
+    }, [pokemon, prefersDark]);
 
     return (
       <motion.div
@@ -35,20 +42,23 @@ export const PokeListCard = React.forwardRef<HTMLDivElement, PokeListCardProps>(
           <div className="w-56 sm:w-full">
             <div className="relative aspect-h-1 aspect-w-1">
               <motion.div className="absolute inset-0">
-                <div className="p-2" style={{ color: pokeballColor }}>
+                <div className="p-2">
                   <motion.div
                     variants={{
                       rest: {
                         scale: 1,
                         rotate: 0,
-                        filter: "brightness(0) opacity(0.3)",
+                        color: prefersDark
+                          ? "rgba(50, 50, 50, 0.8)"
+                          : "rgba(200, 200, 200, 0.8)",
                       },
                       hover: {
                         scale: 1.2,
                         rotate: 180,
-                        filter: "brightness(1) opacity(1)",
+                        color: pokeballColor,
                       },
                     }}
+                    key={prefersDark ? "dark" : "light"}
                   >
                     <Pokeball />
                   </motion.div>
