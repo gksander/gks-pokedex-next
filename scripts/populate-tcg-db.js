@@ -22,8 +22,11 @@ const insertRecord = ({ db, record }) =>
  */
 module.exports = async () => {
   try {
-    await populateCardsData();
-    await populateDecksData();
+    // await populateCardsData();
+    // await populateDecksData();
+    await generateCardData();
+
+    console.log("all done");
   } catch (err) {
     console.log(err);
   }
@@ -93,6 +96,37 @@ const populateDecksData = async () => {
       })
       .on("end", resolve);
   });
+};
+
+/**
+ * Generate card data
+ */
+const generateCardData = async () => {
+  const paths = [];
+  await new Promise((resolve, reject) => {
+    klaw(path.join(TCG_DIR, "cards"))
+      .on("data", async (item) => {
+        if (!/\.json$/i.test(item.path)) return;
+        paths.push(item.path);
+      })
+      .on("end", resolve);
+  });
+
+  const cards = [];
+  const proms = paths.map(async (thePath) => {
+    const data = (await fse.readJson(thePath))
+      .filter((item) => item.supertype === "Pokémon")
+      .map(({ name, imageUrl, imageUrlHiRes }) => ({
+        name,
+        imageUrl,
+        imageUrlHiRes,
+      }));
+    cards.push(...data);
+  });
+
+  await Promise.all(proms);
+
+  await fse.writeJson(path.join(TCG_DIR, "slim_cards.json"), cards);
 };
 
 module.exports();
