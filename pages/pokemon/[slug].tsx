@@ -11,9 +11,10 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaRuler,
+  FaTimes,
   FaWeight,
 } from "react-icons/fa";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 import { PokeImg } from "../../components/PokeImg";
 import { setBackgroundColor } from "../../utils/setBackgroundColor";
 import { ViewWrapper } from "../../components/ViewWrapper";
@@ -29,6 +30,7 @@ import { usePrefersDarkMode } from "../../components/PrefersDarkModeContainer";
 type PokemonDetailsProps = {
   pokemon: ReturnType<typeof getPokemonDetails>;
 };
+type Card = PokemonDetailsProps["pokemon"]["cards"][number];
 
 const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   // Colors
@@ -324,68 +326,109 @@ const BottomLinks: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
 
 const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   const [areCardsShown, setAreCardsShown] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState<Card | null>(null);
 
   return (
-    <div>
-      <div className="text-xl font-bold mb-2">Cards</div>
-      <AnimatePresence>
-        {areCardsShown && (
-          <motion.div
-            className="grid grid-cols-2 sm:grid-cols-3 gap-3"
-            variants={{
-              in: {
-                opacity: 1,
-                height: "auto",
-                transition: {
-                  staggerChildren: 0.1,
+    <AnimateSharedLayout>
+      <div>
+        <div className="text-xl font-bold mb-2">Cards</div>
+        <AnimatePresence>
+          {areCardsShown && (
+            <motion.div
+              className="grid grid-cols-2 sm:grid-cols-3 gap-3"
+              variants={{
+                in: {
+                  opacity: 1,
+                  height: "auto",
+                  transition: {
+                    staggerChildren: 0.1,
+                  },
                 },
-              },
-              out: {
-                height: 0,
-                opacity: 0,
-              },
+                out: {
+                  height: 0,
+                  opacity: 0,
+                },
+              }}
+              initial="out"
+              animate="in"
+              exit="out"
+            >
+              {pokemon.cards.map((card) => (
+                <motion.div
+                  key={card.imageUrl}
+                  className="relative rounded overflow-hidden shadow"
+                  // S TODO: Extract this to a const
+                  variants={{
+                    in: {
+                      opacity: 1,
+                      y: 0,
+                    },
+                    out: {
+                      opacity: 0,
+                      y: 10,
+                    },
+                  }}
+                  onClick={() => setSelectedCard(card)}
+                >
+                  <motion.img
+                    src={card.imageUrl}
+                    key={card.imageUrl}
+                    width={240}
+                    layoutId={card.imageUrl}
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-black bg-opacity-40 px-2 py-1 text-white">
+                    <div className="text-xs font-bold text-gray-200">
+                      {card.series}
+                    </div>
+                    <div className="">{card.releaseDate}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {!areCardsShown && (
+          <button
+            onClick={() => setAreCardsShown(true)}
+            className="block p-2 border-2 rounded w-full border-gray-600 text-gray-600 dark:border-gray-300 dark:text-gray-300"
+          >
+            Show cards
+          </button>
+        )}
+      </div>
+      {/* Modal */}
+      <AnimatePresence>
+        {Boolean(selectedCard) && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-60 z-10 flex justify-center items-center p-8"
+            variants={{
+              in: { opacity: 1 },
+              out: { opacity: 0 },
             }}
             initial="out"
             animate="in"
             exit="out"
           >
-            {pokemon.cards.map((card) => (
-              <motion.div
-                key={card.imageUrl}
-                className="relative rounded overflow-hidden shadow"
-                // S TODO: Extract this to a const
-                variants={{
-                  in: {
-                    opacity: 1,
-                    y: 0,
-                  },
-                  out: {
-                    opacity: 0,
-                    y: 10,
-                  },
-                }}
-              >
-                <img src={card.imageUrl} key={card.imageUrl} width={240} />
-                <div className="absolute inset-x-0 bottom-0 bg-black bg-opacity-40 px-2 py-1 text-white">
-                  <div className="text-xs font-bold text-gray-200">
-                    {card.series}
-                  </div>
-                  <div className="">{card.releaseDate}</div>
-                </div>
-              </motion.div>
-            ))}
+            <div className="absolute inset-0 p-8">
+              <motion.img
+                srcSet={`${selectedCard.imageUrl} 100w, ${selectedCard.imageUrlHiRes} 480w`}
+                layoutId={selectedCard.imageUrl}
+                className="w-full h-full object-contain shadow-lg"
+              />
+              <div className="absolute right-0 top-0 text-gray-700 p-3">
+                <button
+                  className="border-2 border-gray-700 rounded px-6 py-1 flex items-center bg-opacity-75 bg-white"
+                  onClick={() => setSelectedCard(null)}
+                >
+                  Close
+                  <FaTimes className="ml-2" />
+                </button>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-      {!areCardsShown && (
-        <button
-          onClick={() => setAreCardsShown(true)}
-          className="block p-2 border-2 rounded w-full border-gray-600 text-gray-600 dark:border-gray-300 dark:text-gray-300"
-        >
-          Show cards
-        </button>
-      )}
-    </div>
+    </AnimateSharedLayout>
   );
 };
 
