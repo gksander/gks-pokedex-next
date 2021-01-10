@@ -328,6 +328,11 @@ const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   const [areCardsShown, setAreCardsShown] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState<Card | null>(null);
 
+  const onEsc = React.useCallback(() => {
+    setSelectedCard(null);
+  }, []);
+  useKey("Escape", onEsc);
+
   return (
     <AnimateSharedLayout>
       <div>
@@ -413,7 +418,10 @@ const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
               <motion.img
                 srcSet={`${selectedCard.imageUrl} 100w, ${selectedCard.imageUrlHiRes} 480w`}
                 layoutId={selectedCard.imageUrl}
-                className="w-full h-full object-contain shadow-lg"
+                className="w-full h-full object-contain"
+                style={{
+                  filter: `drop-shadow(2px 4px 10px rgb(80, 80, 80))`,
+                }}
               />
               <div className="absolute right-0 top-0 text-gray-700 p-3">
                 <button
