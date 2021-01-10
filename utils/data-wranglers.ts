@@ -214,7 +214,9 @@ export const getPokemonDetails = ({
 
   const now = new Date();
   const cards = pokemonCardsData
-    .filter((card) => card.name.toLowerCase() === pokemon.identifier)
+    .filter((card) =>
+      card.name.toLowerCase().split(" ").includes(pokemon.identifier),
+    )
     .map((card) => {
       const series = cardSetsData.find(
         (series) => series.code === card.setCode,
