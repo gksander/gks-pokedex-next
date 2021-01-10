@@ -333,6 +333,31 @@ const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   }, []);
   useKey("Escape", onEsc);
 
+  const downloadCard = React.useCallback(async () => {
+    if (!selectedCard) return;
+
+    let link, url: string;
+    try {
+      link = document.createElement("a");
+
+      url = await fetch(selectedCard.imageUrlHiRes)
+        .then((res) => res.blob())
+        .then((blob) => URL.createObjectURL(blob));
+
+      link.href = url;
+      link.download = `${selectedCard.name}-${selectedCard.setCode}.png`;
+      document.body.appendChild(link);
+      link.dispatchEvent(new MouseEvent("click", { bubbles: false }));
+    } finally {
+      if (url) {
+        URL.revokeObjectURL(url);
+      }
+      if (link) {
+        document.body.removeChild(link);
+      }
+    }
+  }, [selectedCard]);
+
   return (
     <AnimateSharedLayout>
       <div>
@@ -423,7 +448,13 @@ const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
                   filter: `drop-shadow(2px 4px 10px rgb(80, 80, 80))`,
                 }}
               />
-              <div className="absolute right-0 top-0 text-gray-700 p-3">
+              <div className="absolute right-0 top-0 text-gray-700 p-3 flex">
+                <button
+                  className="mr-2 bg-white px-4 py-1 rounded"
+                  onClick={downloadCard}
+                >
+                  Download
+                </button>
                 <button
                   className="border-2 border-gray-700 rounded px-6 py-1 flex items-center bg-opacity-75 bg-white"
                   onClick={() => setSelectedCard(null)}
