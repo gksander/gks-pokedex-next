@@ -156,6 +156,8 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
             <EvolutionChain pokemon={pokemon} />
           </div>
           <div className="mb-12" />
+          <CardsSection pokemon={pokemon} key={pokemon.slug} />
+          <div className="mb-12" />
           {/* Links */}
           <BottomLinks pokemon={pokemon} />
         </div>
@@ -316,6 +318,73 @@ const BottomLinks: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
           </span>
         </a>
       </Link>
+    </div>
+  );
+};
+
+const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
+  const [areCardsShown, setAreCardsShown] = React.useState(false);
+
+  return (
+    <div>
+      <div className="text-xl font-bold mb-2">Cards</div>
+      <AnimatePresence>
+        {areCardsShown && (
+          <motion.div
+            className="grid grid-cols-2 sm:grid-cols-3 gap-3"
+            variants={{
+              in: {
+                opacity: 1,
+                height: "auto",
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+              out: {
+                height: 0,
+                opacity: 0,
+              },
+            }}
+            initial="out"
+            animate="in"
+            exit="out"
+          >
+            {pokemon.cards.map((card) => (
+              <motion.div
+                key={card.imageUrl}
+                className="relative rounded overflow-hidden shadow"
+                // S TODO: Extract this to a const
+                variants={{
+                  in: {
+                    opacity: 1,
+                    y: 0,
+                  },
+                  out: {
+                    opacity: 0,
+                    y: 10,
+                  },
+                }}
+              >
+                <img src={card.imageUrl} key={card.imageUrl} width={240} />
+                <div className="absolute inset-x-0 bottom-0 bg-black bg-opacity-40 px-2 py-1 text-white">
+                  <div className="text-xs font-bold text-gray-200">
+                    {card.series}
+                  </div>
+                  <div className="">{card.releaseDate}</div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {!areCardsShown && (
+        <button
+          onClick={() => setAreCardsShown(true)}
+          className="block p-2 border-2 rounded w-full border-gray-600 text-gray-600 dark:border-gray-300 dark:text-gray-300"
+        >
+          Show cards
+        </button>
+      )}
     </div>
   );
 };
