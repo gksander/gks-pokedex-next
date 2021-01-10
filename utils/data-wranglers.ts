@@ -2,6 +2,7 @@
  * Typed imports
  */
 import { NUM_POKEMON } from "../config";
+import * as dateFns from "date-fns";
 
 const pokemonData: {
   id: string;
@@ -77,6 +78,17 @@ const pokemonColorPalettes: {
   DarkMuted: Color;
   LightMuted: Color;
 }[] = require("../data/pokemon-colors.json");
+const pokemonCardsData: {
+  name: string;
+  imageUrl: string;
+  imageUrlHiRes: string;
+  setCode: string;
+}[] = require("../data/tcg/slim_cards.json");
+const cardSetsData: {
+  code: string;
+  name: string;
+  releaseDate: string;
+}[] = require("../data/tcg/sets_raw.json");
 import { capitalize } from "lodash";
 
 /**
@@ -200,6 +212,29 @@ export const getPokemonDetails = ({
     return buckets;
   })();
 
+  const now = new Date();
+  const cards = pokemonCardsData
+    .filter((card) => card.name.toLowerCase() === pokemon.identifier)
+    .map((card) => {
+      const series = cardSetsData.find(
+        (series) => series.code === card.setCode,
+      );
+
+      return {
+        ...card,
+        releaseDate: series ? series.releaseDate : "",
+        series: series ? series.name : "",
+      };
+    })
+    .sort((a, b) => {
+      if (!a.releaseDate) return -1;
+      if (!b.releaseDate) return 1;
+      return dateFns.compareAsc(
+        dateFns.parse(a.releaseDate, "MM/dd/yyyy", now),
+        dateFns.parse(b.releaseDate, "MM/dd/yyyy", now),
+      );
+    });
+
   return {
     id: pokemon.id,
     slug: pokemon.identifier,
@@ -223,6 +258,7 @@ export const getPokemonDetails = ({
     colorPalette: trimColorPalette({ colorPalette }),
     weaknesses,
     evolutionChain,
+    cards,
   };
 };
 

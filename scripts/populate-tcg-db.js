@@ -116,10 +116,11 @@ const generateCardData = async () => {
   const proms = paths.map(async (thePath) => {
     const data = (await fse.readJson(thePath))
       .filter((item) => item.supertype === "Pokémon")
-      .map(({ name, imageUrl, imageUrlHiRes }) => ({
+      .map(({ name, imageUrl, imageUrlHiRes, setCode }) => ({
         name,
         imageUrl,
         imageUrlHiRes,
+        setCode,
       }));
     cards.push(...data);
   });

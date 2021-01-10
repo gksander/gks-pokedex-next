@@ -18,6 +18,7 @@
     "autoprefixer": "^10.2.0",
     "classnames": "^2.2.6",
     "csvtojson": "^2.0.10",
+    "date-fns": "^2.16.1",
     "framer-motion": "^3.1.4",
     "fs-extra": "^9.0.1",
     "klaw": "^3.0.0",
