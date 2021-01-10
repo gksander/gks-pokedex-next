@@ -68,8 +68,8 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   className="text-primary-800 dark:text-primary-200"
                 >
                   the Open PokeAPI
-                </a>{" "}
-                and{" "}
+                </a>
+                ,{" "}
                 <a
                   href="https://veekun.com"
                   target="_blank"
@@ -77,6 +77,15 @@ const PokeList: React.FC<PokeListProps> = ({ pageInfo, pokemon }) => {
                   className="text-primary-800 dark:text-primary-200"
                 >
                   Veekun
+                </a>
+                , and{" "}
+                <a
+                  href="https://pokemontcg.io/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary-800 dark:text-primary-200"
+                >
+                  Pokemon TCG Developers
                 </a>
                 . Built with{" "}
                 <a

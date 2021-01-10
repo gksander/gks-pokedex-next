@@ -10,6 +10,7 @@ import {
   FaChevronDown,
   FaChevronLeft,
   FaChevronRight,
+  FaDownload,
   FaRuler,
   FaTimes,
   FaWeight,
@@ -358,6 +359,9 @@ const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
     }
   }, [selectedCard]);
 
+  const buttonClassName =
+    "border-2 border-gray-700 rounded px-6 py-1 flex items-center bg-opacity-75 bg-white";
+
   return (
     <AnimateSharedLayout>
       <div>
@@ -430,7 +434,7 @@ const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
       <AnimatePresence>
         {Boolean(selectedCard) && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-60 z-10 flex justify-center items-center p-8"
+            className="fixed inset-0 bg-black bg-opacity-60 z-10 flex justify-center items-center p-8 md:p-24"
             variants={{
               in: { opacity: 1 },
               out: { opacity: 0 },
@@ -448,15 +452,13 @@ const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
                   filter: `drop-shadow(2px 4px 10px rgb(80, 80, 80))`,
                 }}
               />
-              <div className="absolute right-0 top-0 text-gray-700 p-3 flex">
-                <button
-                  className="mr-2 bg-white px-4 py-1 rounded"
-                  onClick={downloadCard}
-                >
+              <div className="absolute top-0 inset-x-0 text-gray-700 p-3 flex justify-between">
+                <button className={buttonClassName} onClick={downloadCard}>
                   Download
+                  <FaDownload className="ml-2" />
                 </button>
                 <button
-                  className="border-2 border-gray-700 rounded px-6 py-1 flex items-center bg-opacity-75 bg-white"
+                  className={buttonClassName}
                   onClick={() => setSelectedCard(null)}
                 >
                   Close
