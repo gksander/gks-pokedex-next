@@ -390,7 +390,7 @@ const CardsSection: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
               {pokemon.cards.map((card) => (
                 <motion.div
                   key={card.imageUrl}
-                  className="relative rounded overflow-hidden shadow"
+                  className="relative rounded overflow-hidden shadow cursor-pointer"
                   // S TODO: Extract this to a const
                   variants={{
                     in: {
