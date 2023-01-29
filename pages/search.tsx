@@ -41,25 +41,29 @@ const Search: React.FC<SearchProps> = ({ searchList }) => {
           </label>
           <motion.div animate={{ height: "auto" }}>
             {filteredPokemon.map((p) => (
-              <Link href={`/pokemon/${p.slug}`} key={p.slug} passHref>
-                <a className="block p-3 flex items-center bg-gray-50 dark:bg-gray-900 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors duration-150">
-                  <div className="flex-grow flex items-center">
-                    <div className="w-8 mr-3">
-                      <div className="w-full">
-                        <PokeImg
-                          slug={p.slug}
-                          id={p.id}
-                          imgClassName="w-full h-full object-contain"
-                        />
-                      </div>
-                    </div>
-                    <div className="font-bold text-gray-700 dark:text-gray-200 capitalize">
-                      #{p.id} - {p.slug}
+              (<Link
+                href={`/pokemon/${p.slug}`}
+                key={p.slug}
+                passHref
+                className="block p-3 flex items-center bg-gray-50 dark:bg-gray-900 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors duration-150">
+
+                <div className="flex-grow flex items-center">
+                  <div className="w-8 mr-3">
+                    <div className="w-full">
+                      <PokeImg
+                        slug={p.slug}
+                        id={p.id}
+                        imgClassName="w-full h-full object-contain"
+                      />
                     </div>
                   </div>
-                  <FaChevronRight />
-                </a>
-              </Link>
+                  <div className="font-bold text-gray-700 dark:text-gray-200 capitalize">
+                    #{p.id} - {p.slug}
+                  </div>
+                </div>
+                <FaChevronRight />
+
+              </Link>)
             ))}
           </motion.div>
         </div>
