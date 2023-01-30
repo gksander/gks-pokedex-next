@@ -219,8 +219,8 @@ const BottomLink: React.FC<{ href: string; isDisabled: boolean }> = ({
 
   if (!isDisabled) {
     return (
-      <Link href={href} passHref>
-        <a className={className}>{children}</a>
+      <Link href={href} passHref className={className}>
+        {children}
       </Link>
     );
   } else {

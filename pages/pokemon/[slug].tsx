@@ -189,33 +189,34 @@ const EvolutionChain: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
               className="overflow-y-auto overflow-x-hidden grid gap-2"
             >
               {bucket.map((item, j) => (
-                <Link href={`/pokemon/${item.slug}`} key={j}>
-                  <a
-                    className="block relative transition-all duration-300 flex flex-col evLink"
+                (<Link
+                  href={`/pokemon/${item.slug}`}
+                  key={j}
+                  className="block relative transition-all duration-300 flex flex-col evLink"
+                  style={{
+                    width: EV_SIZE,
+                    height: EV_SIZE,
+                  }}>
+
+                  <div className="flex-grow relative">
+                    <div className="absolute inset-0 evImg transition-all duration-200">
+                      <PokeImg {...item} />
+                    </div>
+                  </div>
+                  <div
+                    className={classNames(
+                      "text-center text-gray-700 dark:text-gray-300 overflow-hidden whitespace-no-wrap capitalize",
+                      item.slug === pokemon.slug && "font-bold text-gray-900",
+                    )}
                     style={{
-                      width: EV_SIZE,
-                      height: EV_SIZE,
+                      maxWidth: EV_SIZE,
+                      textOverflow: "ellipsis",
                     }}
                   >
-                    <div className="flex-grow relative">
-                      <div className="absolute inset-0 evImg transition-all duration-200">
-                        <PokeImg {...item} />
-                      </div>
-                    </div>
-                    <div
-                      className={classNames(
-                        "text-center text-gray-700 dark:text-gray-300 overflow-hidden whitespace-no-wrap capitalize",
-                        item.slug === pokemon.slug && "font-bold text-gray-900",
-                      )}
-                      style={{
-                        maxWidth: EV_SIZE,
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.slug}
-                    </div>
-                  </a>
-                </Link>
+                    {item.slug}
+                  </div>
+
+                </Link>)
               ))}
             </div>
             {i < buckets.length - 1 && (
@@ -253,73 +254,77 @@ const BottomLinks: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
 
   return (
     <div className="flex justify-between text-sm text-gray-700 dark:text-gray-300 sticky bottom-0 py-3 border-t customBgColor">
-      <Link href={prevLink}>
-        <a className="border-2 w-36 rounded flex justify-center items-center border-gray-700 dark:border-gray-300 hover:font-bold">
-          <span className="p-2 pr-0">
-            <FaChevronLeft />
-          </span>
-          <span className="flex-grow flex justify-center p-2 overflow-hidden whitespace-no-wrap capitalize">
-            {pokemon?.previousPokemon?.slug || "Pokedex"}
-          </span>
-          <AnimatePresence exitBeforeEnter>
-            {Boolean(pokemon?.previousPokemon?.id) && (
-              <motion.span
-                className="w-8 h-8 p-2 pl-0"
-                key={pokemon?.previousPokemon?.slug || ""}
-                variants={{
-                  in: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
-                  out: {
-                    opacity: 0,
-                    scale: 0.4,
-                    transition: { duration: 0.1 },
-                  },
-                }}
-                initial="out"
-                animate="in"
-                exit="out"
-              >
-                <PokeImg
-                  slug={pokemon?.previousPokemon?.slug || ""}
-                  id={pokemon?.previousPokemon?.id || ""}
-                />
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </a>
+      <Link
+        href={prevLink}
+        className="border-2 w-36 rounded flex justify-center items-center border-gray-700 dark:border-gray-300 hover:font-bold">
+
+        <span className="p-2 pr-0">
+          <FaChevronLeft />
+        </span>
+        <span className="flex-grow flex justify-center p-2 overflow-hidden whitespace-no-wrap capitalize">
+          {pokemon?.previousPokemon?.slug || "Pokedex"}
+        </span>
+        <AnimatePresence exitBeforeEnter>
+          {Boolean(pokemon?.previousPokemon?.id) && (
+            <motion.span
+              className="w-8 h-8 p-2 pl-0"
+              key={pokemon?.previousPokemon?.slug || ""}
+              variants={{
+                in: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
+                out: {
+                  opacity: 0,
+                  scale: 0.4,
+                  transition: { duration: 0.1 },
+                },
+              }}
+              initial="out"
+              animate="in"
+              exit="out"
+            >
+              <PokeImg
+                slug={pokemon?.previousPokemon?.slug || ""}
+                id={pokemon?.previousPokemon?.id || ""}
+              />
+            </motion.span>
+          )}
+        </AnimatePresence>
+
       </Link>
-      <Link href={nextLink}>
-        <a className="border-2 w-36 rounded flex justify-center items-center border-gray-700 dark:border-gray-300 hover:font-bold">
-          <AnimatePresence exitBeforeEnter>
-            {Boolean(pokemon?.nextPokemon?.id) && (
-              <motion.span
-                className="w-8 h-8 p-2 pr-0"
-                key={pokemon?.nextPokemon?.slug || ""}
-                variants={{
-                  in: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
-                  out: {
-                    opacity: 0,
-                    scale: 0.4,
-                    transition: { duration: 0.1 },
-                  },
-                }}
-                initial="out"
-                animate="in"
-                exit="out"
-              >
-                <PokeImg
-                  slug={pokemon?.nextPokemon?.slug || ""}
-                  id={pokemon?.nextPokemon?.id || ""}
-                />
-              </motion.span>
-            )}
-          </AnimatePresence>
-          <span className="flex-grow flex justify-center p-2 overflow-hidden whitespace-no-wrap capitalize">
-            {pokemon?.nextPokemon?.slug || "Pokedex"}
-          </span>
-          <span className="p-2 pl-0">
-            <FaChevronRight />
-          </span>
-        </a>
+      <Link
+        href={nextLink}
+        className="border-2 w-36 rounded flex justify-center items-center border-gray-700 dark:border-gray-300 hover:font-bold">
+
+        <AnimatePresence exitBeforeEnter>
+          {Boolean(pokemon?.nextPokemon?.id) && (
+            <motion.span
+              className="w-8 h-8 p-2 pr-0"
+              key={pokemon?.nextPokemon?.slug || ""}
+              variants={{
+                in: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
+                out: {
+                  opacity: 0,
+                  scale: 0.4,
+                  transition: { duration: 0.1 },
+                },
+              }}
+              initial="out"
+              animate="in"
+              exit="out"
+            >
+              <PokeImg
+                slug={pokemon?.nextPokemon?.slug || ""}
+                id={pokemon?.nextPokemon?.id || ""}
+              />
+            </motion.span>
+          )}
+        </AnimatePresence>
+        <span className="flex-grow flex justify-center p-2 overflow-hidden whitespace-no-wrap capitalize">
+          {pokemon?.nextPokemon?.slug || "Pokedex"}
+        </span>
+        <span className="p-2 pl-0">
+          <FaChevronRight />
+        </span>
+
       </Link>
     </div>
   );

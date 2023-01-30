@@ -50,36 +50,37 @@ const AppBody: React.FC = ({ children }) => {
         )}
       >
         <div className="container max-w-2xl flex flex-row justify-between items-center">
-          <Link href="/" passHref>
-            <a
-              className={classNames(
-                "rounded border-2 border-transparent hover:border-primary-800 dark:hover:border-primary-300 transition-colors duration-150 homeLink",
-                asPath === "/" && "border-primary-800 dark:border-primary-300",
-              )}
+          <Link
+            href="/"
+            passHref
+            className={classNames(
+              "rounded border-2 border-transparent hover:border-primary-800 dark:hover:border-primary-300 transition-colors duration-150 homeLink",
+              asPath === "/" && "border-primary-800 dark:border-primary-300",
+            )}>
+
+            <motion.div
+              className="flex items-center h-full w-full px-3 py-2 "
+              initial="rest"
+              whileHover="hover"
+              animate="rest"
             >
-              <motion.div
-                className="flex items-center h-full w-full px-3 py-2 "
-                initial="rest"
-                whileHover="hover"
-                animate="rest"
-              >
-                <div className="w-6 mr-2">
-                  <motion.div
-                    variants={{
-                      rest: {
-                        rotate: 0,
-                      },
-                      hover: {
-                        rotate: 180,
-                      },
-                    }}
-                  >
-                    <Pokeball />
-                  </motion.div>
-                </div>
-                <span className="font-bold text-lg">Pokedex</span>
-              </motion.div>
-            </a>
+              <div className="w-6 mr-2">
+                <motion.div
+                  variants={{
+                    rest: {
+                      rotate: 0,
+                    },
+                    hover: {
+                      rotate: 180,
+                    },
+                  }}
+                >
+                  <Pokeball />
+                </motion.div>
+              </div>
+              <span className="font-bold text-lg">Pokedex</span>
+            </motion.div>
+
           </Link>
           <div>
             <button
@@ -89,17 +90,19 @@ const AppBody: React.FC = ({ children }) => {
               {prefersDarkMode ? <FaSun /> : <FaMoon />}
             </button>
             {LINKS.map((link) => (
-              <Link key={link.to} href={link.to} passHref>
-                <a
-                  className={classNames(
-                    "px-3 py-2 font-bold rounded transition-colors duration-150 border-2 border-transparent hover:border-primary-800 dark:hover:border-primary-300",
-                    asPath === link.to &&
-                      "border-primary-800 dark:border-primary-300",
-                  )}
-                >
-                  {link.title}
-                </a>
-              </Link>
+              (<Link
+                key={link.to}
+                href={link.to}
+                passHref
+                className={classNames(
+                  "px-3 py-2 font-bold rounded transition-colors duration-150 border-2 border-transparent hover:border-primary-800 dark:hover:border-primary-300",
+                  asPath === link.to &&
+                    "border-primary-800 dark:border-primary-300",
+                )}>
+
+                {link.title}
+
+              </Link>)
             ))}
           </div>
         </div>

@@ -60,23 +60,24 @@ export const PokeTypeChip: React.FC<PokeTypeChipProps> = ({
   })();
 
   return (
-    <Link href={`/types/${slug}`} passHref>
-      <a
-        className={classNames(
-          "capitalize border-2 rounded inline-flex justify-center items-center transition-all duration-150",
-          isSmall ? "w-20 h-6 text-xs" : "w-24 h-8",
-          isBlock && "w-full",
-          isGrayscale && "grayscale",
-          typeSpecificClasses,
-        )}
-      >
-        <span>{slug}</span>
-        {isStarred && (
-          <span className="ml-1">
-            <FaStar />
-          </span>
-        )}
-      </a>
-    </Link>
+    (<Link
+      href={`/types/${slug}`}
+      passHref
+      className={classNames(
+        "capitalize border-2 rounded inline-flex justify-center items-center transition-all duration-150",
+        isSmall ? "w-20 h-6 text-xs" : "w-24 h-8",
+        isBlock && "w-full",
+        isGrayscale && "grayscale",
+        typeSpecificClasses,
+      )}>
+
+      <span>{slug}</span>
+      {isStarred && (
+        <span className="ml-1">
+          <FaStar />
+        </span>
+      )}
+
+    </Link>)
   );
 };
