@@ -3,7 +3,10 @@ import Head from "next/head";
 import Link from "next/link";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { PokeListPaginationInfo } from "../types";
-import { getSlimPokemonData } from "../utils/data-wranglers";
+import {
+  getSlimPokemonData,
+  getSlimPokemonDataGraphQL,
+} from "../utils/data-wranglers";
 import { NUM_POKEMON, POKE_LIST_PAGE_SIZE } from "../config";
 import { ViewWrapper } from "../components/ViewWrapper";
 import {
@@ -17,6 +20,8 @@ import classNames from "classnames";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useKey } from "react-use";
+import { client } from "../data/graphql-client";
+import { GET_POKEMON_LIST_QUERY } from "../queries/get-pokemon-list";
 
 type PokeListProps = {
   pageInfo: PokeListPaginationInfo;
@@ -281,10 +286,19 @@ export const getStaticProps: GetStaticProps<
   const page = Number(params?.page?.[0] || "1");
   const pageFirstId = (page - 1) * POKE_LIST_PAGE_SIZE + 1;
 
-  const pokemon = Array.from({ length: POKE_LIST_PAGE_SIZE })
-    .map((_, i) => pageFirstId + i)
-    .filter((i) => i <= NUM_POKEMON)
-    .map((id) => getSlimPokemonData({ id: String(id) }));
+  // const pokemon = Array.from({ length: POKE_LIST_PAGE_SIZE })
+  //   .map((_, i) => pageFirstId + i)
+  //   .filter((i) => i <= NUM_POKEMON)
+  //   .map((id) => getSlimPokemonData({ id: String(id) }));
+
+  const response = await client
+    ?.query(GET_POKEMON_LIST_QUERY, {
+      limit: POKE_LIST_PAGE_SIZE,
+      offset: (page - 1) * POKE_LIST_PAGE_SIZE,
+    })
+    .toPromise();
+
+  const pokemon = response.data.pokemon.map(getSlimPokemonDataGraphQL);
 
   return {
     props: {

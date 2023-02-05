@@ -270,12 +270,12 @@ export const getPokemonDetails = ({
 const trimColorPalette = ({
   colorPalette,
 }: {
-  colorPalette: typeof pokemonColorPalettes[0];
+  colorPalette: (typeof pokemonColorPalettes)[0];
 }) => {
   return Object.entries(colorPalette || {}).reduce((acc, [key, value]) => {
     acc[key] = value?.rgb?.length ? value?.rgb : "";
     return acc;
-  }, {} as { [K in keyof typeof pokemonColorPalettes[0]]: number[] | "" });
+  }, {} as { [K in keyof (typeof pokemonColorPalettes)[0]]: number[] | "" });
 };
 
 /**
@@ -288,11 +288,34 @@ export const getSlimPokemonData = ({
   key?: "id" | "slug";
   id: string;
 }) => {
-  const { id: pid, slug, flavorText, types, colorPalette } = getPokemonDetails({
+  const {
+    id: pid,
+    slug,
+    flavorText,
+    types,
+    colorPalette,
+  } = getPokemonDetails({
     key,
     id,
   });
   return { id: pid, slug, flavorText, types, colorPalette };
+};
+
+export const getSlimPokemonDataGraphQL = (response: Record<string, any>) => {
+  const pid = response.id;
+  const colorPalette = pokemonColorPalettes["1"];
+  const pokemonNode = response.pokemon.nodes[0];
+  const types = pokemonNode.types.map((t) => t.type.name);
+  const flavorText =
+    response.flavorText[0]?.flavor_text.replace(/[\n\r\f]/g, " ") || "";
+  const slug = response.name.toLowerCase().trim();
+  return {
+    id: pid,
+    slug,
+    flavorText,
+    types,
+    colorPalette: trimColorPalette({ colorPalette }),
+  };
 };
 
 /**
